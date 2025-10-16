@@ -1,0 +1,19 @@
+{
+  "name": "cypress-test-store",
+  "version": "1.0.0",
+  "description": "Test de practica",
+  "license": "ISC",
+  "author": "Sergio Campos",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "pruebas-chrome": "cypress run --spec cypress/e2e/smoketestbank.cy.js --browser chrome",
+    "pruebas-edge": "cypress run --spec cypress/e2e/smoketestbank.cy.js --browser edge",
+    "pruebas-firefox": "cypress run --spec cypress/e2e/smoketestbank.cy.js --browser firefox",
+    "pruebaOrangeHRM": "cypress run --spec cypress/e2e/SmokeTestOrangeHRM.cy.js --browser chrome"
+    
+  },
+  "devDependencies": {
+    "cypress": "^15.3.0"
+  }
+}
