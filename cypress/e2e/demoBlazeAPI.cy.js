@@ -56,7 +56,7 @@ describe("API Demoblaze", () => {
         // Object
     })
 
-    it.only("Iniciar sesión por UI", () => {
+    it("Iniciar sesión por UI", () => {
         cy.visit("/")
         cy.intercept('POST', '**/login').as('loginCall')
 
@@ -69,6 +69,23 @@ describe("API Demoblaze", () => {
         console.log(interception.response.body)
         })
         })
+
+    it.only("Check status is 200", () => {
+        cy.intercept('GET', '**/entries').as("statusCall") //primero se intercepta la API para trabajar sobre ella y se le da un nombre como en este caso "statusCall"
+        cy.visit("/") // mandamos la peticion para que visite la pagina web, recogiendo el baseUrl desde el cypress.config.js
+        cy.wait('@statusCall').then((interception) => { //Esperamos a que nos muestre nuestro "statusCall", luego llamamos a la intercepcion y lo mostramos por consola.
+            console.log(interception.response.body) //esperamos que nos lo muestre por la consola del DevTools de chrome
+            expect(interception.response.statusCode).to.eq(200) //Finalmente escribimos que desde la intercepcion.de la respuesta.obteniendo el statusCode sea igual a 200
+            
+            //En la consola de Chrome nos indica lo siguiente
+            //Command: assert
+            //Actual: 200
+            //Expected: 200
+            //Message: expected 200 to equal 200
+
+            //Y asi es como podemos revisar si el status es 200 sin necesidad de aplicaciones externas como Postman.
+        })
+    })
 
 
 })
