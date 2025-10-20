@@ -17,6 +17,9 @@ module.exports = defineConfig({
       creditCard:"ES298976123401876523",
       year:"29",
       month:"01",
-    }
+      fakeEmail: "emailtest@gmail.com"
+    },
+    failOnStatusCode: false
   },
+  
 });

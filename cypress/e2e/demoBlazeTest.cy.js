@@ -1,13 +1,11 @@
 describe("Smoke Test pagina web y diferentes apartados", () => {
 
-
     beforeEach(() => {
     // runs before each test in the block  <---- Super Important
     //We dont need to add any command, variable or catching the element in any test. Just running it at the top of all the test cases will be enough
-        cy.visit("https://www.demoblaze.com")
+        cy.visit("/")
         
     })
-
     it("Validar pagina de inicio", () => {
         cy.get('.active > .d-block').should("be.visible")
         cy.get('#nava').should("be.visible")
@@ -26,8 +24,8 @@ describe("Smoke Test pagina web y diferentes apartados", () => {
     it("Crear una cuenta de usuario (Happy Path)", () => {
         
         cy.get('#signin2').click()
-        cy.get('#sign-username').typev(cypress.env("username"), { force: true, delay: 100 })
-        cy.get('#sign-password').type(cypress.env("password"), {force:true, delay: 100})
+        cy.get('#sign-username').type(Cypress.env("username"), { force: true, delay: 100 })
+        cy.get('#sign-password').type(Cypress.env("password"), {force:true, delay: 100})
         cy.get('#signInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
         
     })
@@ -77,8 +75,8 @@ describe("Smoke Test pagina web y diferentes apartados", () => {
 
     it("Enviar mensaje de contacto", () => {
         cy.get(':nth-child(2) > .nav-link').click()
-        cy.get('#recipient-email').type(cypress.env ("fakeEmail"), {force:true, delay:100})
-        cy.get('#recipient-name').type("Sergio Campos", {force: true, delay: 100})
+        cy.get('#recipient-email').type(Cypress.env ("fakeEmail"), {force:true, delay:100})
+        cy.get('#recipient-name').type(Cypress.env("name"), {force: true, delay: 100})
         cy.get('#message-text').type("This is a test performed by the QA Team", {force:true, delay:100})
         cy.get('#exampleModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
     })
@@ -91,10 +89,23 @@ describe("Smoke Test pagina web y diferentes apartados", () => {
         cy.wait(1000)
         cy.get('#videoModal > .modal-dialog > .modal-content > .modal-footer > .btn').click()
         //muchos de los elementos que nos iremos encontrando en la pagina web tienen un ancho y un alto de 0px y tendremos que ver como poder clicar el objeto o si podemos
-        //utilizar teclas con el metodo cy.press e indicando la tecla o teclas que queremos pulsar
-        
+        //utilizar teclas con el metodo cy.press e indicando la tecla o teclas que queremos pulsar        
     })
-    
-    
 
-})
+    it('Validation test Automated from the new Update in Cypress', function() {
+        cy.get('div.list-group a:nth-child(2)').click();
+        cy.get('div.list-group a:nth-child(3)').click();
+        cy.get('div.list-group a:nth-child(4)').click();
+        cy.get('div.list-group a:nth-child(2)').click();
+        cy.get('#tbodyid div:nth-child(1) > div.card > div.card-block > h4.card-title > a.hrefch').click();
+        cy.get('#more-information p').click();
+        cy.get('#more-information p').should('be.visible');
+        cy.get('#tbodyid').click();
+        cy.get('#tbodyid h3.price-container').should('be.visible');
+        cy.get('#tbodyid h2.name').click();
+        cy.get('#tbodyid h2.name').should('have.text', 'Samsung galaxy s6');
+        cy.get('#imgp img').click();
+    });
+
+});
+
