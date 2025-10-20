@@ -1,12 +1,12 @@
 describe("Smoke Test pagina web y diferentes apartados", () => {
 
+
     beforeEach(() => {
     // runs before each test in the block  <---- Super Important
     //We dont need to add any command, variable or catching the element in any test. Just running it at the top of all the test cases will be enough
-        cy.visit("https://www.demoblaze.com/")
+        cy.visit("https://www.demoblaze.com")
         
     })
-
 
     it("Validar pagina de inicio", () => {
         cy.get('.active > .d-block').should("be.visible")
@@ -24,18 +24,19 @@ describe("Smoke Test pagina web y diferentes apartados", () => {
     })
 
     it("Crear una cuenta de usuario (Happy Path)", () => {
+        
         cy.get('#signin2').click()
-        cy.get('#sign-username').type("Sergiocampos99")
-        cy.get('#sign-password').type("abc123456!")
+        cy.get('#sign-username').typev(cypress.env("username"), { force: true, delay: 100 })
+        cy.get('#sign-password').type(cypress.env("password"), {force:true, delay: 100})
         cy.get('#signInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
         
     })
 
-    it.only("Iniciar sesion y comprar un producto", () => {
+    it("Iniciar sesion y comprar un producto", () => {
         cy.get('#login2').click()
-        cy.get('#loginusername').type('Sergiocampos99', { force: true, delay: 100 })
+        cy.get('#loginusername').type(Cypress.env("username"), { force: true, delay: 100 })
         cy.wait(1000)
-        cy.get('#loginpassword').type("abc123456!")
+        cy.get('#loginpassword').type(Cypress.env("password"), {force:true, delay: 100})
         cy.get('#logInModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
         cy.get(':nth-child(3) > .card > .card-block > .card-title > .hrefch').click()
         cy.get('.col-sm-12 > .btn').click()
@@ -46,14 +47,14 @@ describe("Smoke Test pagina web y diferentes apartados", () => {
         cy.get('#tbodyid > :nth-child(1) > :nth-child(2)').should("be.visible")
         cy.get('#tbodyid > :nth-child(2) > :nth-child(2)').should("be.visible")
         cy.get('.col-lg-1 > .btn').click()
-        cy.get('#name').type("Sergio", {force:true,delay: 100})
-        cy.get('#country').type("Spain", {force:true,delay: 100})
-        cy.get('#city').type("Zaragoza", {force:true,delay: 100})
-        cy.get('#card').type("ES299808653423457651", {force:true, delay:100})
-        cy.get('#month').type("01")
-        cy.get('#year').type("29")
+        cy.get('#name').type(Cypress.env("name"), {force:true,delay: 100})
+        cy.get('#country').type(Cypress.env("country"), {force:true,delay: 100})
+        cy.get('#city').type(Cypress.env("city"), {force:true,delay: 100})
+        cy.get('#card').type(Cypress.env("creditCard"), {force:true, delay:100})
+        cy.get('#month').type(Cypress.env("month"))
+        cy.get('#year').type(Cypress.env("year"))
         cy.get('#orderModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
-        cy.get('.sweet-alert > h2').contains("Thank you for your purchase!").should("be.visible")
+        cy.get('.sweet-alert > h2').should('contain', "Thank you for your purchase!")
         cy.get('.lead').should("be.visible")
         cy.wait(1000) //cypress trabaja tan rapido que algunas paginas web no pueden soportar esa rapidez, asi que añadimos de forma sencilla
         // y rapida el metodo wait para esperar almenos 1 segundo
@@ -63,5 +64,37 @@ describe("Smoke Test pagina web y diferentes apartados", () => {
         cy.get('#nava').should("be.visible")
         cy.get('#contcont > :nth-child(1) > .col-lg-3').should("be.visible")
     })
+
+    it("Validar informacion de producto", () => {
+        cy.get(':nth-child(1) > .card > .card-block > .card-title > .hrefch').click()
+        cy.get('.name').contains("Samsung galaxy s6")
+        cy.get('#more-information > p').should("be.visible")
+        cy.get('.price-container').should("be.visible")
+        cy.get('.col-sm-12 > .btn').should("be.visible")
+        cy.get('.item > img').should("be.visible")
+        
+    })
+
+    it("Enviar mensaje de contacto", () => {
+        cy.get(':nth-child(2) > .nav-link').click()
+        cy.get('#recipient-email').type(cypress.env ("fakeEmail"), {force:true, delay:100})
+        cy.get('#recipient-name').type("Sergio Campos", {force: true, delay: 100})
+        cy.get('#message-text').type("This is a test performed by the QA Team", {force:true, delay:100})
+        cy.get('#exampleModal > .modal-dialog > .modal-content > .modal-footer > .btn-primary').click()
+    })
+
+    it("Reproducir, parar y cerrar video sobre About Us", () => {
+        cy.get(':nth-child(3) > .nav-link').click()
+        cy.get('.vjs-poster').click()
+        cy.wait(7000) //esperamos a que se reproduzca almenos 7 segundos
+        cy.get('#example-video_html5_api').click()
+        cy.wait(1000)
+        cy.get('#videoModal > .modal-dialog > .modal-content > .modal-footer > .btn').click()
+        //muchos de los elementos que nos iremos encontrando en la pagina web tienen un ancho y un alto de 0px y tendremos que ver como poder clicar el objeto o si podemos
+        //utilizar teclas con el metodo cy.press e indicando la tecla o teclas que queremos pulsar
+        
+    })
+    
+    
 
 })

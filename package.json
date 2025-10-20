@@ -11,9 +11,8 @@
     "pruebas-edge": "cypress run --spec cypress/e2e/smoketestbank.cy.js --browser edge",
     "pruebas-firefox": "cypress run --spec cypress/e2e/smoketestbank.cy.js --browser firefox",
     "pruebaOrangeHRM": "cypress run --spec cypress/e2e/SmokeTestOrangeHRM.cy.js --browser chrome"
-    
   },
   "devDependencies": {
-    "cypress": "^15.3.0"
+    "cypress": "^15.5.0"
   }
 }
